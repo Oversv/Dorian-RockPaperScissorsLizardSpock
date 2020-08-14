@@ -1,0 +1,84 @@
+*,
+*::before,
+*::after {
+  font-family: Helvetica, sans-serif;
+  box-sizing: border-box; }
+
+main {
+  background-color: skyblue;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
+ul {
+  list-style: none;
+  padding-left: 0; }
+
+.button {
+  color: blue;
+  cursor: pointer; }
+
+.active {
+  background-color: red;
+  box-shadow: inset 0px 0px 5px #c1c1c1; }
+
+.player {
+  height: 300px;
+  width: 100%;
+  max-width: 600px;
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding-top: 50px; }
+  .player__choice-img {
+    width: 150px;
+    height: 150px; }
+  .player__move-choice {
+    background-color: green;
+    height: 30px; }
+  .player__move-choice-list {
+    display: flex; }
+  .player__timer {
+    text-align: center;
+    font-size: 30px;
+    color: red; }
+  .player__info {
+    width: 150px;
+    text-align: center;
+    border: 1px solid blue; }
+  .player__username {
+    color: blue;
+    font-size: 1.5em; }
+  .player__result {
+    color: green;
+    font-size: 2.5em; }
+
+.img-small {
+  width: 30px;
+  height: 30px; }
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  /* important use alpha */
+  transform: scale(0);
+  transition: transform .3s; }
+  .modal--show {
+    transform: scale(1); }
+  .modal--hide {
+    transform: scale(0); }
+  .modal__content {
+    position: relative;
+    /* important for the situation of modal__close */
+    width: 500px;
+    height: 100vh;
+    padding: 10px;
+    background-color: white; }

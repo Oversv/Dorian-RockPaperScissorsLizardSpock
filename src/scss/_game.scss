@@ -1,0 +1,53 @@
+.player{
+    height: 300px;
+    width: 100%;
+    max-width: 600px;
+    background-color: whitesmoke;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding-top: 50px;
+
+    
+    
+    &__choice-img{
+        width: 150px;
+        height: 150px;
+    }
+    &__move-choice{
+        background-color: green;
+        height: 30px;
+
+
+    }
+    &__move-choice-list{
+        display: flex;            
+        
+    }
+    &__timer{
+        
+       
+        text-align: center;
+        font-size: 30px;
+        color: red;
+        //border: 1px solid blue;
+        
+    } 
+    &__info{
+        width: 150px;        
+        text-align: center;
+        border: 1px solid blue;
+    }
+    &__username{
+        color: blue;
+        font-size: 1.5em;
+    }
+    &__result{
+        color: green;
+        font-size: 2.5em;
+    }
+}
+.img-small{
+    width: 30px;
+    height: 30px;
+}
