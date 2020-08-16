@@ -1,68 +1,172 @@
+.green {
+  color: #2ea44f; }
+
+.red {
+  color: #dc3545; }
+
 *,
 *::before,
 *::after {
   font-family: Helvetica, sans-serif;
   box-sizing: border-box; }
 
-main {
-  background-color: skyblue;
+body {
+  margin: 0;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center; }
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f5f9; }
+
+main {
+  width: 100%;
+  max-width: 500px; }
 
 ul {
   list-style: none;
   padding-left: 0; }
 
 .button {
-  color: blue;
+  border-radius: 4px;
+  margin: 5px;
+  height: 30px;
+  color: #1e2022;
+  font-weight: bold;
   cursor: pointer; }
+  .button__square {
+    height: 30px;
+    width: 30px;
+    border-radius: 4px;
+    margin: 5px;
+    color: #1e2022;
+    font-weight: bold;
+    cursor: pointer; }
+  .button--L {
+    height: 40px;
+    width: 100px;
+    color: #1e2022;
+    font-weight: bold;
+    font-weight: bold;
+    font-size: 20px;
+    margin: 8px;
+    border-radius: 8px;
+    cursor: pointer; }
+  .button--XL {
+    height: 50px;
+    width: 150px;
+    font-size: 25px;
+    margin: 10px;
+    border-radius: 8px;
+    color: #f0f5f9;
+    font-weight: bold;
+    cursor: pointer; }
 
 .active {
-  background-color: red;
-  box-shadow: inset 0px 0px 5px #c1c1c1; }
+  background-color: #2ea44f;
+  color: #f0f5f9;
+  box-shadow: inset 0px 0px 5px #f0f5f9; }
+
+.disabled {
+  background-color: #f0f5f9;
+  color: #1e2022;
+  box-shadow: inset 0px 0px 5px #1e2022;
+  cursor: not-allowed; }
 
 .player {
-  height: 300px;
   width: 100%;
-  max-width: 600px;
-  background-color: whitesmoke;
+  max-width: 500px;
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
-  padding-top: 50px; }
+  padding: 15px 0;
+  border: 6px dashed #1e2022; }
   .player__choice-img {
     width: 150px;
     height: 150px; }
   .player__move-choice {
-    background-color: green;
     height: 30px; }
   .player__move-choice-list {
-    display: flex; }
+    display: flex;
+    justify-content: center;
+    cursor: pointer; }
   .player__timer {
     text-align: center;
-    font-size: 30px;
-    color: red; }
+    font-size: 1.5em;
+    color: #dc3545; }
   .player__info {
-    width: 150px;
-    text-align: center;
-    border: 1px solid blue; }
+    width: 100px;
+    text-align: center; }
   .player__username {
-    color: blue;
+    color: #52616b;
+    font-weight: bold;
     font-size: 1.5em; }
   .player__result {
-    color: green;
-    font-size: 2.5em; }
+    color: #2ea44f;
+    font-weight: bold;
+    font-size: 1.5em; }
 
 .img-small {
   width: 30px;
   height: 30px; }
+
+.advanced-game-hide {
+  display: none; }
+
+.start-game {
+  width: 100%;
+  margin-top: 50px;
+  text-align: center; }
+  .start-game__block {
+    display: flex;
+    flex-direction: column; }
+  .start-game__input-text {
+    margin: 5px auto;
+    height: 30px;
+    width: 150px;
+    border-radius: 4px;
+    text-align: center; }
+  .start-game__topic {
+    margin: 30px 0 0 0;
+    font-size: 20px; }
+
+.info-game {
+  width: 100%;
+  max-width: 500px;
+  height: 120px;
+  color: #f0f5f9;
+  background-color: #1e2022;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 6px dashed #f0f5f9;
+  font-weight: bold; }
+  .info-game__paragraph {
+    margin: 5px;
+    height: 30px;
+    width: 100%;
+    text-transform: uppercase; }
+
+.log {
+  text-align: center; }
+  .log__winner {
+    font-size: 2em; }
+  .log__round {
+    color: #1e2022;
+    padding: 10px;
+    font-weight: bold;
+    border: 5px dashed #1e2022;
+    background-color: #f0f5f9; }
+  .log__img {
+    width: 20px;
+    height: 20px; }
 
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100vw;
@@ -76,9 +180,8 @@ ul {
   .modal--hide {
     transform: scale(0); }
   .modal__content {
-    position: relative;
-    /* important for the situation of modal__close */
     width: 500px;
     height: 100vh;
-    padding: 10px;
-    background-color: white; }
+    background-color: #1e2022;
+    color: #f0f5f9;
+    overflow-y: auto; }

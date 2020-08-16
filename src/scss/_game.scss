@@ -1,53 +1,118 @@
-.player{
-    height: 300px;
+.player{    
     width: 100%;
-    max-width: 600px;
-    background-color: whitesmoke;
+    max-width: 500px;   
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
-    padding-top: 50px;
-
-    
+    padding: 15px 0;
+    border: 6px dashed $third;
     
     &__choice-img{
         width: 150px;
         height: 150px;
     }
-    &__move-choice{
-        background-color: green;
+
+    &__move-choice{       
         height: 30px;
-
-
     }
+
     &__move-choice-list{
         display: flex;            
-        
+        justify-content: center;
+        cursor: pointer;
     }
-    &__timer{
-        
-       
+
+    &__timer{               
         text-align: center;
-        font-size: 30px;
-        color: red;
-        //border: 1px solid blue;
-        
+        font-size: 1.5em;
+        color: $red;   
     } 
+
     &__info{
-        width: 150px;        
-        text-align: center;
-        border: 1px solid blue;
+        width: 100px;        
+        text-align: center;        
     }
-    &__username{
-        color: blue;
+
+    &__username{       
+        color: $second;
+        font-weight: bold;
         font-size: 1.5em;
     }
+
     &__result{
-        color: green;
-        font-size: 2.5em;
+        color: $green;
+        font-weight: bold;
+        font-size: 1.5em;
     }
 }
 .img-small{
     width: 30px;
-    height: 30px;
+    height: 30px;    
+}
+.advanced-game-hide{
+    display: none;
+}
+
+.start-game{
+    width: 100%;
+    margin-top: 50px;    
+    text-align: center;    
+
+    &__block{
+        display: flex;
+        flex-direction: column;        
+    }
+    &__input-text{
+        margin: 5px auto;
+        height: 30px;
+        width: 150px;
+        border-radius: 4px;
+        text-align: center;
+    }
+    &__topic{
+        margin: 30px 0 0 0 ;
+        font-size: 20px;
+    }
+}
+
+.info-game{
+    width: 100%;
+    max-width: 500px;
+    height: 120px;  
+    color: $first;
+    background-color: $third;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 6px dashed $first;
+    font-weight: bold;
+
+    &__paragraph{
+        margin: 5px;
+        height: 30px;
+        width: 100%;
+        text-transform: uppercase;       
+    }
+}
+
+.log{    
+    text-align: center;
+
+    &__winner{
+        font-size: 2em;        
+    }
+
+    &__round{
+        color: $third;
+        padding: 10px;
+        font-weight: bold;
+        border: 5px dashed $third;
+        background-color: $first;
+    }
+
+    &__img{
+        width: 20px;
+        height: 20px;
+    }
 }

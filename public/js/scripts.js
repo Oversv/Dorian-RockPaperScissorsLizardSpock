@@ -6,8 +6,7 @@ var movesChoice = document.getElementById('move-choice-list'); //mirar de cambia
 var play = document.getElementById('start-game');
 var computerResult = document.getElementById('computer-player-result');
 var userResult = document.getElementById('user-player-result');
-var formStartGame = document.getElementById('form-start-game'); //TODO hacer lo del log
-
+var formStartGame = document.getElementById('form-start-game');
 var game = {
   computer: {
     username: "Machine",
@@ -18,10 +17,13 @@ var game = {
     score: 0
   },
   difficult: "advanced",
-  rounds: 1,
+  rounds: 3,
   log: []
 }; //Functions
-// TODO Mostraconst gameType = document.getElementById('select-game-type')r el ganador final.
+
+/**
+ * * Return the username
+ */
 
 var getUsername = function getUsername() {
   var result = sessionStorage.getItem('rockPaperScissorsUsername');
@@ -31,7 +33,10 @@ var getUsername = function getUsername() {
   }
 
   return result;
-}; //!función que genera un nº aleatorio para la máquina
+};
+/**
+ * * Generate a machine option, return a string
+ */
 
 
 var choiceMachine = function choiceMachine() {
@@ -50,16 +55,46 @@ var choiceMachine = function choiceMachine() {
 
   imgComputer.src = "images/".concat(options[result], ".svg");
   return options[result];
-}; //! TODO función que compara el resultado de la máquina con el rival y da un ganador
-//!Return null  si es empate
-//!Return 0 si gana user
-//!Return 1 si gana machine
+};
+/**
+ * *Hide the icons lizard and spock in the clasic game
+ */
+
+
+var hideLizardAndSpock = function hideLizardAndSpock() {
+  var lizard = document.getElementById('lizard');
+  var spock = document.getElementById('spock');
+  lizard.classList.add('advanced-game-hide');
+  spock.classList.add('advanced-game-hide');
+};
+/**
+ * *Show the icons lizard and spock in the advanced game
+ */
+
+
+var showLizardAndSpock = function showLizardAndSpock() {
+  var lizard = document.getElementById('lizard');
+  var spock = document.getElementById('spock');
+  lizard.classList.remove('advanced-game-hide');
+  spock.classList.remove('advanced-game-hide');
+};
+/**
+ * * Compare the result of machine with the user and return the winner    
+ * @param {string} user option chossed for user 
+ * @param {string} machine option chossed for user 
+ * return null is is tie
+ * return 0 if user wins
+ * return 1 if machine wins
+*/
 
 
 var winerRound = function winerRound(user, machine) {
   if (game.difficult === 'normal') {
-    // TODO la parte normal
-    console.log("HACER");
+    if (user === machine) return null;
+    if (user === 'rock' && machine === 'scissors') return 0;
+    if (user === 'paper' && machine === 'rock') return 0;
+    if (user === 'scissors' && machine === 'paper') return 0;
+    return 1;
   } else {
     if (user === machine) return null;
     if (user === 'rock' && (machine === 'scissors' || machine === 'lizard')) return 0;
@@ -70,6 +105,11 @@ var winerRound = function winerRound(user, machine) {
     return 1;
   }
 };
+/**
+ * *Update the result of the round
+ * @param {null, 0 or 1} result 
+ */
+
 
 var updateResult = function updateResult(result) {
   if (result === null) return;
@@ -77,12 +117,22 @@ var updateResult = function updateResult(result) {
   computerResult.textContent = game.computer.score;
   userResult.textContent = game.user.score;
 };
+/**
+ * * Update the number of the round
+ * @param {number} round The total rounds
+ */
+
 
 var updateInfoRound = function updateInfoRound(round) {
   var numberRounds = document.getElementById('info-round');
   var totalRounds = game.rounds;
   numberRounds.textContent = "Round ".concat(totalRounds - round + 1);
 };
+/**
+ * *Update the winer of the round
+ * @param {null, 0 or 1} winner 
+ */
+
 
 var updateRoundWinner = function updateRoundWinner(winner) {
   // TODO usar la constante que tiene almacenada el nombre  
@@ -96,10 +146,15 @@ var updateRoundWinner = function updateRoundWinner(winner) {
   winner ? result = "Computer Wins" : result = "User Wins";
   roundWinner.textContent = result;
 };
+/**
+ * * Reset the scores, log, number of the round and winner of the round
+ */
+
 
 var reset = function reset() {
   var machine = game.computer.score = 0;
   var user = game.user.score = 0;
+  game.log = [];
   computerResult.textContent = machine;
   userResult.textContent = user;
   var numberRounds = document.getElementById('info-round');
@@ -107,6 +162,10 @@ var reset = function reset() {
   var roundWinner = document.getElementById('round-winner');
   roundWinner.textContent = '';
 };
+/**
+ * * Countdown of three seconds
+ */
+
 
 var countdown = function countdown() {
   var time = document.getElementById('timer');
@@ -120,6 +179,14 @@ var countdown = function countdown() {
     }
   }, 1000);
 };
+/**
+ * * Update log
+ * @param {number} round total of rounds
+ * @param {string} computer the option of the computer
+ * @param {string} user the option of the user
+ * @param {null, 0 or 1} winner thw winnwe of the round
+ */
+
 
 var log = function log(round, computer, user, winner) {
   var totalRounds = game.rounds;
@@ -131,6 +198,10 @@ var log = function log(round, computer, user, winner) {
   };
   game.log.push(log);
 };
+/**
+ * *Creathe the log modal
+ */
+
 
 var printerLog = function printerLog() {
   var modalContent = document.getElementById('modal-result-content');
@@ -139,40 +210,77 @@ var printerLog = function printerLog() {
   var text = "";
   var winner = "";
   var checkTie = "";
+  modalContent.innerHTML = "";
   game.computer.score > game.user.score ? winner = game.computer.username : winner = game.user.username;
-  div.innerHTML += "\n        <p>The winner is ".concat(winner, "</p>\n        <p>").concat(game.user.username, " ").concat(game.user.score, " - ").concat(game.computer.score, " ").concat(game.computer.username, "  </p>\n    ");
+  div.setAttribute('class', 'log');
+  div.innerHTML += "\n        <p class=\"log__winner\">The winner is ".concat(winner, "</p>\n        <p><span class=\"green\">").concat(game.user.username, "</span> ").concat(game.user.score, " - ").concat(game.computer.score, " <span class=\"red\"> ").concat(game.computer.username, "</spam></p>\n    ");
   game.log.forEach(function (e) {
     if (e.winner === 0) {
-      text = "".concat(game.user.username, " wins");
+      text = "<span class=\"green\">".concat(game.user.username, " wins</span>");
     } else if (e.winner === 1) {
-      text = "".concat(game.user.username, " loses");
+      text = "<span class=\"red\">".concat(game.user.username, " loses</span>");
     } else {
       text = "".concat(game.user.username, " tie");
     }
 
     if (checkTie !== e.round) {
-      checkTie = "<p>Round ".concat(e.round, "</p>");
+      checkTie = "<p class=\"log__round\">ROUND ".concat(e.round, "</p>");
     } else {
       checkTie = "";
     }
 
-    div.innerHTML += "\n            <p>".concat(checkTie, "</p>\n            <p>").concat(e.user, " VS ").concat(e.computer, " ").concat(text, " </p>\n        ");
+    div.innerHTML += "\n            <p>".concat(checkTie, "</p>\n            <p><img class=\"log__img\" src=\"../images/").concat(e.user, ".svg\"> vs <img class=\"log__img\" src=\"../images/").concat(e.computer, ".svg\"> ").concat(text, " </p>\n        ");
     checkTie = e.round;
     fragment.appendChild(div);
   });
+  div.innerHTML += "\n        <button id=\"hide-log\" class=\"button--XL active\">CLOSE</button>\n    ";
   modalContent.appendChild(fragment);
+  hideLogListener();
 };
+/**
+ * *Show the log
+ */
+
 
 var showModalResult = function showModalResult() {
   var modalResult = document.getElementById('modal-result');
   modalResult.classList.add('modal--show');
   printerLog();
 };
+/**
+ * Disabled the buttons of play and settings while the game is running
+ */
+
+
+var disabledButtons = function disabledButtons() {
+  var buttonPlay = document.getElementById('start-game');
+  var buttonSettings = document.getElementById('settings');
+  buttonPlay.setAttribute('disabled', "");
+  buttonPlay.classList.add('disabled');
+  buttonSettings.setAttribute('disabled', "");
+  buttonSettings.classList.add('disabled');
+};
+/**
+ * Enabled the buttons of play and settings
+ */
+
+
+var enabledButtons = function enabledButtons() {
+  var buttonPlay = document.getElementById('start-game');
+  var buttonSettings = document.getElementById('settings');
+  buttonPlay.removeAttribute('disabled');
+  buttonPlay.classList.remove('disabled');
+  buttonSettings.removeAttribute('disabled');
+  buttonSettings.classList.remove('disabled');
+};
+/**
+ * This fuction is where the game se lleva a cabo
+ */
+
 
 var startGame = function startGame() {
-  var buttonPlay = document.getElementById('start-game');
   var rounds = game.rounds;
-  buttonPlay.setAttribute('disabled', "");
+  disabledButtons();
   reset();
 
   (function loop(rounds) {
@@ -191,8 +299,8 @@ var startGame = function startGame() {
         //When rounds is != 0 the condition is true 
         loop(rounds);
       } else {
-        buttonPlay.removeAttribute('disabled');
         showModalResult();
+        enabledButtons();
       }
     }, 3000);
   })(rounds);
@@ -202,14 +310,14 @@ var startGame = function startGame() {
 formStartGame.addEventListener('submit', function (e) {
   var usernameInput = document.getElementById('input-username');
   var username = document.getElementById('user-player-username');
+  e.preventDefault();
 
-  if (usernameInput.value.trim().length > 0 && usernameInput.value.trim().length < 20) {
+  if (usernameInput.value.trim().length > 0 && usernameInput.value.trim().length < 10) {
     sessionStorage.setItem('rockPaperScissorsUsername', usernameInput.value.trim());
   } else {
     console.log('Nombre incorrecto'); //TODO Añadir una clase para poner el nombre en rojo y mostrar el aviso
   }
 
-  e.preventDefault();
   game.user.username = getUsername();
   username.textContent = game.user.username;
 });
@@ -252,7 +360,27 @@ var go = document.getElementById('go');
 go.addEventListener('click', function () {
   var modal = document.getElementById('modal-start');
   modal.classList.add('modal--hide');
+
+  if (game.difficult === 'normal') {
+    hideLizardAndSpock();
+  } else {
+    showLizardAndSpock();
+  }
 });
+
+var hideLogListener = function hideLogListener() {
+  var hideLog = document.getElementById('hide-log');
+  hideLog.addEventListener('click', function () {
+    var modal = document.getElementById('modal-result');
+    modal.classList.remove('modal--show');
+  });
+};
+
 play.addEventListener('click', function () {
   startGame();
+});
+var settings = document.getElementById('settings');
+settings.addEventListener('click', function () {
+  var modal = document.getElementById('modal-start');
+  modal.classList.remove('modal--hide');
 });

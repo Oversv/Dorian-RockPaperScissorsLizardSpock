@@ -4,11 +4,6 @@ const play = document.getElementById('start-game')
 const computerResult = document.getElementById('computer-player-result')
 const userResult = document.getElementById('user-player-result')
 const formStartGame = document.getElementById('form-start-game')
-
-
-//TODO hacer lo del log
-
-
 const game ={
     computer: {
         username: "Machine",
@@ -19,14 +14,13 @@ const game ={
         score: 0
     },
     difficult: "advanced",
-    rounds: 1,
+    rounds: 3,
     log: []
-}
-
-
+} 
 //Functions
-// TODO Mostraconst gameType = document.getElementById('select-game-type')r el ganador final.
-
+/**
+ * * Return the username
+ */
 const getUsername = () =>{
     let result = sessionStorage.getItem('rockPaperScissorsUsername')
     if(result === null){
@@ -35,14 +29,16 @@ const getUsername = () =>{
     return result
 }
 
-//!función que genera un nº aleatorio para la máquina
+/**
+ * * Generate a machine option, return a string
+ */
 const choiceMachine = () =>{
     const imgComputer = document.getElementById('computer-choice-img')
     const min = 0
     const options = ['rock', 'paper', 'scissors', 'lizard', 'spock' ]
     let result
     
-    if(game.difficult === 'normal'){
+    if(game.difficult === 'normal'){ 
         const max = 3
         result =  Math.floor(Math.random() * (max - min)) + min;
     }else{
@@ -52,17 +48,45 @@ const choiceMachine = () =>{
     imgComputer.src =`images/${options[result]}.svg`
     return options[result]
 }
+/**
+ * *Hide the icons lizard and spock in the clasic game
+ */
+const hideLizardAndSpock = () =>{
+    const lizard = document.getElementById('lizard')
+    const spock = document.getElementById('spock')
+    
+    lizard.classList.add('advanced-game-hide')
+    spock.classList.add('advanced-game-hide')
+}
+/**
+ * *Show the icons lizard and spock in the advanced game
+ */
+const showLizardAndSpock = () =>{
+    const lizard = document.getElementById('lizard')
+    const spock = document.getElementById('spock')
+    
+    lizard.classList.remove('advanced-game-hide')
+    spock.classList.remove('advanced-game-hide')
+}
 
-
-//! TODO función que compara el resultado de la máquina con el rival y da un ganador
-//!Return null  si es empate
-//!Return 0 si gana user
-//!Return 1 si gana machine
+/**
+ * * Compare the result of machine with the user and return the winner    
+ * @param {string} user option chossed for user 
+ * @param {string} machine option chossed for user 
+ * return null is is tie
+ * return 0 if user wins
+ * return 1 if machine wins
+*/
 const winerRound = (user, machine) =>{
  
     if(game.difficult === 'normal'){
-        // TODO la parte normal
-        console.log("HACER")
+        if(user === machine) return null
+        if(user === 'rock'     && machine === 'scissors') return 0
+        if(user === 'paper'    && machine === 'rock')     return 0
+        if(user === 'scissors' && machine === 'paper')    return 0
+
+        return 1
+
     }else{
         if(user === machine) return null
         if(user === 'rock'     && (machine === 'scissors' || machine === 'lizard'))   return 0
@@ -74,7 +98,10 @@ const winerRound = (user, machine) =>{
         return 1
     }  
 }
-
+/**
+ * *Update the result of the round
+ * @param {null, 0 or 1} result 
+ */
 const updateResult = (result) =>{
     if(result === null) return;
     
@@ -85,14 +112,20 @@ const updateResult = (result) =>{
     computerResult.textContent = game.computer.score
     userResult.textContent = game.user.score
 }
-
+/**
+ * * Update the number of the round
+ * @param {number} round The total rounds
+ */
 const updateInfoRound = (round) =>{
     const numberRounds = document.getElementById('info-round')  
     const totalRounds = game.rounds
     
     numberRounds.textContent = `Round ${totalRounds - round + 1}`    
 }
-
+/**
+ * *Update the winer of the round
+ * @param {null, 0 or 1} winner 
+ */
 const updateRoundWinner = (winner) =>{
     // TODO usar la constante que tiene almacenada el nombre  
     const roundWinner = document.getElementById('round-winner')
@@ -108,10 +141,13 @@ const updateRoundWinner = (winner) =>{
 
     roundWinner.textContent = result
 }
-
+/**
+ * * Reset the scores, log, number of the round and winner of the round
+ */
 const reset = () =>{
     const machine = game.computer.score = 0
     const user = game.user.score = 0
+    game.log = []
 
     computerResult.textContent = machine
     userResult.textContent = user
@@ -122,7 +158,9 @@ const reset = () =>{
     const roundWinner = document.getElementById('round-winner')
     roundWinner.textContent = ''
 }
-
+/**
+ * * Countdown of three seconds
+ */
 const countdown = () =>{
     const time = document.getElementById('timer');
     let count = 3;
@@ -139,7 +177,13 @@ const countdown = () =>{
     }, 1000);
 }
 
-
+/**
+ * * Update log
+ * @param {number} round total of rounds
+ * @param {string} computer the option of the computer
+ * @param {string} user the option of the user
+ * @param {null, 0 or 1} winner thw winnwe of the round
+ */
 const log = (round, computer, user, winner) =>{    
     const totalRounds = game.rounds     
     const log = {
@@ -152,50 +196,64 @@ const log = (round, computer, user, winner) =>{
     game.log.push(log) 
 }
 
+/**
+ * *Creathe the log modal
+ */
 const printerLog = () =>{
-    const modalContent = document.getElementById('modal-result-content')
+    let modalContent = document.getElementById('modal-result-content')
     const fragment = document.createDocumentFragment()
     const div = document.createElement('DIV')  
     let text = ""
     let winner = ""
-    let checkTie = "";
+    let checkTie = ""
+
+    modalContent.innerHTML= "";
 
     (game.computer.score > game.user.score)
         ? winner = game.computer.username
         : winner = game.user.username
 
+    div.setAttribute('class', 'log')
     div.innerHTML+=`
-        <p>The winner is ${winner}</p>
-        <p>${game.user.username} ${game.user.score} - ${game.computer.score} ${game.computer.username}  </p>
+        <p class="log__winner">The winner is ${winner}</p>
+        <p><span class="green">${game.user.username}</span> ${game.user.score} - ${game.computer.score} <span class="red"> ${game.computer.username}</spam></p>
     `
     game.log.forEach(e =>{
         
         if(e.winner === 0){
-            text = `${game.user.username} wins`
+            text = `<span class="green">${game.user.username} wins</span>`
 
         }else if(e.winner === 1){
-            text = `${game.user.username} loses`
+            text = `<span class="red">${game.user.username} loses</span>`
 
         }else{
             text = `${game.user.username} tie`
         }
 
         if(checkTie !== e.round){            
-           checkTie =  `<p>Round ${e.round}</p>`            
+           checkTie = `<p class="log__round">ROUND ${e.round}</p>`            
         }else{
             checkTie = ""
         } 
 
         div.innerHTML +=`
             <p>${checkTie}</p>
-            <p>${e.user} VS ${e.computer} ${text} </p>
+            <p><img class="log__img" src="../images/${e.user}.svg"> vs <img class="log__img" src="../images/${e.computer}.svg"> ${text} </p>
         ` 
         checkTie = e.round
         fragment.appendChild(div)
-    })
-    modalContent.appendChild(fragment)
-}
+    }) 
 
+    div.innerHTML+=`
+        <button id="hide-log" class="button--XL active">CLOSE</button>
+    `
+
+    modalContent.appendChild(fragment)
+    hideLogListener()
+}
+/**
+ * *Show the log
+ */
 const showModalResult = () =>{
     const modalResult = document.getElementById('modal-result')
 
@@ -203,13 +261,40 @@ const showModalResult = () =>{
 
     printerLog()
 }
-
-const startGame = () =>{
+/**
+ * Disabled the buttons of play and settings while the game is running
+ */
+const disabledButtons = () =>{
     const buttonPlay = document.getElementById('start-game')
-    const rounds = game.rounds
+    const buttonSettings = document.getElementById('settings')
 
     buttonPlay.setAttribute('disabled', "")
+    buttonPlay.classList.add('disabled')
 
+    buttonSettings.setAttribute('disabled', "")
+    buttonSettings.classList.add('disabled')
+}
+/**
+ * Enabled the buttons of play and settings
+ */
+const enabledButtons = () =>{
+    const buttonPlay = document.getElementById('start-game')
+    const buttonSettings = document.getElementById('settings')
+
+    buttonPlay.removeAttribute('disabled')
+    buttonPlay.classList.remove('disabled')
+
+    buttonSettings.removeAttribute('disabled')
+    buttonSettings.classList.remove('disabled')
+}
+/**
+ * This fuction is where the game se lleva a cabo
+ */
+const startGame = () =>{   
+    
+    const rounds = game.rounds
+
+    disabledButtons()
     reset(); 
 
     (function loop(rounds) {        
@@ -232,30 +317,28 @@ const startGame = () =>{
             if(--rounds){//When rounds is != 0 the condition is true 
                 loop(rounds)
             }else{
-                buttonPlay.removeAttribute('disabled')
                 showModalResult()
+                enabledButtons()
             }        
 
         }, 3000)
                 
     })(rounds);  
-    
-
-    
 }
 
 //Listener
 formStartGame.addEventListener('submit', e =>{
     const usernameInput = document.getElementById('input-username')
     const username = document.getElementById('user-player-username')
+    e.preventDefault()    
     
-    if(usernameInput.value.trim().length > 0 && usernameInput.value.trim().length < 20){
+    if(usernameInput.value.trim().length > 0 && usernameInput.value.trim().length < 10){
         sessionStorage.setItem('rockPaperScissorsUsername', usernameInput.value.trim())
+        
     }else{
         console.log('Nombre incorrecto') //TODO Añadir una clase para poner el nombre en rojo y mostrar el aviso
     }
-
-    e.preventDefault()    
+    
     game.user.username = getUsername()
     username.textContent = game.user.username    
     
@@ -308,8 +391,30 @@ const go = document.getElementById('go')
 go.addEventListener('click', ()=>{
     const modal = document.getElementById('modal-start')
     modal.classList.add('modal--hide')
+
+    if(game.difficult === 'normal'){
+        hideLizardAndSpock()               
+    }else{
+        showLizardAndSpock()
+    }
 })
+
+const hideLogListener = () =>{
+
+    const hideLog = document.getElementById('hide-log')
+    hideLog.addEventListener('click', () =>{
+        const modal = document.getElementById('modal-result')
+        modal.classList.remove('modal--show')
+    })
+}
 
 play.addEventListener('click', () =>{
     startGame()
+})
+
+const settings = document.getElementById('settings')
+settings.addEventListener('click', ()=>{
+    
+    const modal = document.getElementById('modal-start')    
+    modal.classList.remove('modal--hide')
 })

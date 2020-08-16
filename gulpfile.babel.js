@@ -67,7 +67,7 @@ gulp.task('babel', () =>{
     return gulp
         .src('./src/js/*.js')
         .pipe(plumber())
-        //.pipe(concat('scripts-min.js'))
+        .pipe(concat('scripts.js'))
         .pipe(babel())
         //.pipe(terser()) //Minifica el código
         .pipe(gulp.dest('./public/js'))

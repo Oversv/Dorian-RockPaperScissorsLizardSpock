@@ -3,73 +3,74 @@
   <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Rock Paper Scissors</title><!--link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous") -->
-    <link rel="stylesheet" href="css/styles.css?t=1597429335925"/>
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="css/styles.css?t=1597612212820"/>
   </head>
   <body>
-    <div class="modal modal--show" id="modal-start"><!-- Añadir modal--show -->
+    <div class="modal modal--show" id="modal-start">
       <div class="modal__content" id="modal-start-content">
-        <form id="form-start-game">
-          <div>
-            <label for="input-username">Write your nickname</label>
-            <input type="text" id="input-username" placeholder="Pepe"/>
+        <form class="start-game" id="form-start-game">
+          <div class="start-game__block">
+            <label class="start-game__topic" for="input-username">Write your nickname</label>
+            <input class="start-game__input-text" type="text" id="input-username" placeholder="John"/>
           </div>
           <div id="select-game-type">
-            <label for="">Select the game <!-- Establecer un id--></label>
+            <p class="start-game__topic">Select the game</p>
             <input class="button" type="button" value="Classic"/>
-            <input class="button" type="button" value="+ Lizard and Spock"/>
+            <input class="button active" type="button" value="+ Lizard and Spock"/>
           </div>
           <div id="select-game-round">
-            <label for="">Select the number of rounds</label>
-            <input type="button" value="1"/>
-            <input type="button" value="3"/>
-            <input type="button" value="5"/>
-            <input type="button" value="7"/>
+            <p class="start-game__topic">Select the number of rounds</p>
+            <input class="button__square" type="button" value="1"/>
+            <input class="button__square active" type="button" value="3"/>
+            <input class="button__square" type="button" value="5"/>
+            <input class="button__square" type="button" value="7"/>
           </div>
-          <div>
-            <input type="button" value="Instructions cambiar nombre"/>
+          <div class="start-game__topic">
+            <!--input(type="button", value="Instructions cambiar nombre" class="button")-->
           </div>
-          <input type="submit" id="go" value="GO"/>
+          <input class="button--XL active" type="submit" id="go" value="GO"/>
         </form>
       </div>
     </div>
     <main>
       <div class="player" id="computer-user">
-        <div><img class="player__choice-img" src="" id="computer-choice-img"/></div>
+        <div><img class="player__choice-img" src="images/spock.jpg" id="computer-choice-img"/></div>
         <div class="player__info">
           <p class="player__username" id="computer-player-username">Computer</p>
           <p class="player__result" id="computer-player-result">0</p>
         </div>
       </div>
       <div class="info-game" id="info-game">
-        <p id="info-round">Round 1</p>
-        <p id="round-winner"></p>
-        <button id="start-game">PLAY</button>
+        <p class="info-game__paragraph" id="info-round">Round 1</p>
+        <p class="info-game__paragraph" id="round-winner"></p>
+        <button class="button--L active" id="start-game">PLAY</button>
       </div>
       <div class="player" id="user-player">
         <div><img class="player__choice-img" src="images/rock.svg" data-value="rock" id="user-choice-img"/>
           <div>
             <div class="player__move-choice" id="move-choice">
               <ul class="player__move-choice-list" id="move-choice-list">
-                <li><img class="img-small" src="/images/rock.svg" alt="" data-value="rock"/></li>
-                <li><img class="img-small" src="/images/paper.svg" alt="" data-value="paper"/></li>
-                <li><img class="img-small" src="/images/scissors.svg" alt="" data-value="scissors"/></li>
-                <li><img class="img-small" src="/images/lizard.svg" alt="" data-value="lizard"/></li>
-                <li><img class="img-small" src="/images/spock.svg" alt="" data-value="spock"/></li>
+                <li><img class="img-small" src="/images/rock.svg" alt="rock" data-value="rock"/></li>
+                <li><img class="img-small" src="/images/paper.svg" alt="paper" data-value="paper"/></li>
+                <li><img class="img-small" src="/images/scissors.svg" alt="scissors" data-value="scissors"/></li>
+                <li><img class="img-small" src="/images/lizard.svg" alt="lizard" id="lizard" data-value="lizard"/></li>
+                <li><img class="img-small" src="/images/spock.svg" alt="spock" id="spock" data-value="spock"/></li>
               </ul>
             </div>
           </div>
         </div>
         <div class="player__info">
-          <p class="player__username" id="user-player-username">Pepe</p>
+          <p class="player__username" id="user-player-username"></p>
           <p class="player__result" id="user-player-result">0</p>
           <p class="player__timer" id="timer"></p>
+          <button class="button active" id="settings">Settings</button>
         </div>
       </div>
     </main>
     <div class="modal" id="modal-result">
-      <div class="modal__content" id="modal-result-content"> </div>
+      <div class="modal__content" id="modal-result-content"></div>
     </div>
-    <script src="js/scripts.js?t=1597429335925"></script>
+    <script src="js/scripts.js?t=1597612212820"></script>
   </body>
 </html>

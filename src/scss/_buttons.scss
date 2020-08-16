@@ -1,12 +1,54 @@
 .button{
-    color: blue;
+    border-radius: 4px;
+    margin: 5px;
+    height: 30px;
+    color: $third;
+    font-weight: bold;
     cursor: pointer;
 
+    &__square{
+        height: 30px;
+        width: 30px;
+        border-radius: 4px;
+        margin: 5px;
+        color: $third;
+        font-weight: bold;
+        cursor: pointer;
+    }
 
+    &--L{
+        height: 40px;
+        width: 100px;
+        color: $third;
+        font-weight: bold;
+        font-weight: bold;
+        font-size: 20px;
+        margin: 8px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
 
+    &--XL{
+        height: 50px;
+        width: 150px;
+        font-size: 25px;
+        margin: 10px;
+        border-radius: 8px;
+        color: $first;
+        font-weight: bold;
+        cursor: pointer;        
+    }
 }
 
 .active{
-    background-color: red;
-    box-shadow: inset 0px 0px 5px #c1c1c1; //TODO revisar el css
+    background-color:$green;
+    color: $first;
+    box-shadow: inset 0px 0px 5px $first; 
+}
+
+.disabled{
+    background-color:$first;
+    color: $third;
+    box-shadow: inset 0px 0px 5px $third;
+    cursor: not-allowed; 
 }

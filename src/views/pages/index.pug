@@ -4,55 +4,55 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Rock Paper Scissors
-        <!--link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous") -->
         link(rel="stylesheet", href="css/styles.css")
     body
-        #modal-start.modal.modal--show <!-- Añadir modal--show -->
+        #modal-start.modal.modal--show
             #modal-start-content.modal__content
-                form#form-start-game
-                    div
-                        label(for="input-username") Write your nickname
-                        input(type="text", id="input-username" placeholder="Pepe")
+                form#form-start-game.start-game
+                    div.start-game__block
+                        label(for="input-username" class="start-game__topic") Write your nickname
+                        input(type="text", id="input-username" placeholder="John" class="start-game__input-text")
                     #select-game-type
-                        label(for="") Select the game <!-- Establecer un id-->
+                        p.start-game__topic Select the game
                         input(type="button", value="Classic" class="button")
-                        input(type="button", value="+ Lizard and Spock" class="button")
+                        input(type="button", value="+ Lizard and Spock" class="button active")
                     #select-game-round
-                        label(for="") Select the number of rounds
-                        input(type="button", value="1")
-                        input(type="button", value="3")
-                        input(type="button", value="5")
-                        input(type="button", value="7")
-                    div
-                        input(type="button", value="Instructions cambiar nombre")
-                    input(type="submit", id="go", value="GO")                    
+                        p.start-game__topic Select the number of rounds
+                        input(type="button", value="1" class="button__square")
+                        input(type="button", value="3" class="button__square active")
+                        input(type="button", value="5" class="button__square")
+                        input(type="button", value="7" class="button__square")
+                    div.start-game__topic
+                        //input(type="button", value="Instructions cambiar nombre" class="button")
+                    input(type="submit", id="go", value="GO" class="button--XL active")                    
         main
             #computer-user.player
                 div
-                    img(src="")#computer-choice-img.player__choice-img
+                    img(src="images/spock.jpg")#computer-choice-img.player__choice-img
                 div.player__info
                     p#computer-player-username.player__username Computer
                     p#computer-player-result.player__result 0
             #info-game.info-game
-                p#info-round Round 1
-                p#round-winner
-                button#start-game PLAY
+                p#info-round.info-game__paragraph Round 1
+                p#round-winner.info-game__paragraph
+                button#start-game.button--L.active PLAY
             #user-player.player
                 div
                     img(src="images/rock.svg", data-value="rock")#user-choice-img.player__choice-img
                     div
                         #move-choice.player__move-choice
                             ul#move-choice-list.player__move-choice-list
-                                li: img(src="/images/rock.svg", alt="" class="img-small" data-value="rock")
-                                li: img(src="/images/paper.svg", alt="" class="img-small" data-value="paper")
-                                li: img(src="/images/scissors.svg", alt="" class="img-small" data-value="scissors")
-                                li: img(src="/images/lizard.svg", alt="" class="img-small" data-value="lizard")
-                                li: img(src="/images/spock.svg", alt="" class="img-small" data-value="spock")
+                                li: img(src="/images/rock.svg", alt="rock" class="img-small" data-value="rock")
+                                li: img(src="/images/paper.svg", alt="paper" class="img-small" data-value="paper")
+                                li: img(src="/images/scissors.svg", alt="scissors" class="img-small" data-value="scissors")
+                                li: img(src="/images/lizard.svg", alt="lizard" class="img-small" id="lizard" data-value="lizard")
+                                li: img(src="/images/spock.svg", alt="spock" class="img-small" id="spock" data-value="spock")
                 div.player__info
-                    p#user-player-username.player__username Pepe
+                    p#user-player-username.player__username
                     p#user-player-result.player__result 0
                     p#timer.player__timer
+                    button#settings.button.active Settings
         
         #modal-result.modal
-            #modal-result-content.modal__content 
+            #modal-result-content.modal__content
         script(src="js/scripts.js")

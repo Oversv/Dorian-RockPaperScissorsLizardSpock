@@ -2,19 +2,24 @@
 *::before, 
 *::after {
     font-family: Helvetica, sans-serif;  
-    box-sizing: border-box;   
-    
+    box-sizing: border-box;     
 }
 
-
-main{
-    background-color: skyblue;
+body{
+    margin: 0;
+    height: 100vh;
     display: flex;
-    flex-direction: column;
-    align-items: center;    
+    justify-content: center;
+    align-items: center;
+    background-color: $first;    
 }
+
+main{    
+    width: 100%;
+    max-width: 500px;       
+}
+
 ul{
     list-style: none;
     padding-left: 0;
 }
-
