@@ -16,7 +16,7 @@ var game = {
     username: "",
     score: 0
   },
-  difficult: "advanced",
+  level: "advanced",
   rounds: 3,
   log: []
 }; //Functions
@@ -35,7 +35,7 @@ var getUsername = function getUsername() {
   return result;
 };
 /**
- * * Generate a machine option, return a string
+ * * Generate a machine move, return a string with the move
  */
 
 
@@ -45,7 +45,7 @@ var choiceMachine = function choiceMachine() {
   var options = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
   var result;
 
-  if (game.difficult === 'normal') {
+  if (game.level === 'normal') {
     var max = 3;
     result = Math.floor(Math.random() * (max - min)) + min;
   } else {
@@ -57,7 +57,7 @@ var choiceMachine = function choiceMachine() {
   return options[result];
 };
 /**
- * *Hide the icons lizard and spock in the clasic game
+ * * Hide the icons lizard and spock in the classic game
  */
 
 
@@ -68,7 +68,7 @@ var hideLizardAndSpock = function hideLizardAndSpock() {
   spock.classList.add('advanced-game-hide');
 };
 /**
- * *Show the icons lizard and spock in the advanced game
+ * * Show the icons lizard and spock in the advanced game
  */
 
 
@@ -79,17 +79,17 @@ var showLizardAndSpock = function showLizardAndSpock() {
   spock.classList.remove('advanced-game-hide');
 };
 /**
- * * Compare the result of machine with the user and return the winner    
- * @param {string} user option chossed for user 
- * @param {string} machine option chossed for user 
- * return null is is tie
+ * * Compare the machine result with the user result and return the winner    
+ * @param {string} user move chosen by user 
+ * @param {string} machine move chosen by machine 
+ * return null if it is a tie
  * return 0 if user wins
  * return 1 if machine wins
 */
 
 
-var winerRound = function winerRound(user, machine) {
-  if (game.difficult === 'normal') {
+var winnerRound = function winnerRound(user, machine) {
+  if (game.level === 'normal') {
     if (user === machine) return null;
     if (user === 'rock' && machine === 'scissors') return 0;
     if (user === 'paper' && machine === 'rock') return 0;
@@ -106,7 +106,7 @@ var winerRound = function winerRound(user, machine) {
   }
 };
 /**
- * *Update the result of the round
+ * * Update the result of the round
  * @param {null, 0 or 1} result 
  */
 
@@ -129,13 +129,12 @@ var updateInfoRound = function updateInfoRound(round) {
   numberRounds.textContent = "Round ".concat(totalRounds - round + 1);
 };
 /**
- * *Update the winer of the round
+ * * Update the winner of the round
  * @param {null, 0 or 1} winner 
  */
 
 
 var updateRoundWinner = function updateRoundWinner(winner) {
-  // TODO usar la constante que tiene almacenada el nombre  
   var roundWinner = document.getElementById('round-winner');
   var result = "";
 
@@ -182,9 +181,9 @@ var countdown = function countdown() {
 /**
  * * Update log
  * @param {number} round total of rounds
- * @param {string} computer the option of the computer
- * @param {string} user the option of the user
- * @param {null, 0 or 1} winner thw winnwe of the round
+ * @param {string} computer the computer move
+ * @param {string} user the user move
+ * @param {null, 0 or 1} winner the winner of the round
  */
 
 
@@ -199,7 +198,7 @@ var log = function log(round, computer, user, winner) {
   game.log.push(log);
 };
 /**
- * *Creathe the log modal
+ * * Create the log modal
  */
 
 
@@ -238,7 +237,7 @@ var printerLog = function printerLog() {
   hideLogListener();
 };
 /**
- * *Show the log
+ * * Show the log
  */
 
 
@@ -248,7 +247,7 @@ var showModalResult = function showModalResult() {
   printerLog();
 };
 /**
- * Disabled the buttons of play and settings while the game is running
+ * * Disabled the buttons of play and settings while the game is running
  */
 
 
@@ -261,7 +260,7 @@ var disabledButtons = function disabledButtons() {
   buttonSettings.classList.add('disabled');
 };
 /**
- * Enabled the buttons of play and settings
+ * * Enabled the buttons of play and settings
  */
 
 
@@ -274,7 +273,16 @@ var enabledButtons = function enabledButtons() {
   buttonSettings.classList.remove('disabled');
 };
 /**
- * This fuction is where the game se lleva a cabo
+ * * Reproduce a short audio at the end of each round
+ */
+
+
+var playAudio = function playAudio() {
+  var audio = new Audio('../audio/beep.mp3');
+  audio.play();
+};
+/**
+ * * This fuction contains all functions for the game to work
  */
 
 
@@ -288,10 +296,11 @@ var startGame = function startGame() {
     setTimeout(function () {
       var machine = choiceMachine();
       var user = userChoice.getAttribute('data-value');
-      var result = winerRound(user, machine);
+      var result = winnerRound(user, machine);
       updateInfoRound(rounds);
       updateResult(result);
       updateRoundWinner(result);
+      playAudio();
       log(rounds, machine, user, result);
       if (result === null) rounds++;
 
@@ -310,12 +319,10 @@ var startGame = function startGame() {
 formStartGame.addEventListener('submit', function (e) {
   var usernameInput = document.getElementById('input-username');
   var username = document.getElementById('user-player-username');
-  e.preventDefault();
+  e.preventDefault(); // ? Block access withouth username
 
   if (usernameInput.value.trim().length > 0 && usernameInput.value.trim().length < 10) {
     sessionStorage.setItem('rockPaperScissorsUsername', usernameInput.value.trim());
-  } else {
-    console.log('Nombre incorrecto'); //TODO Añadir una clase para poner el nombre en rojo y mostrar el aviso
   }
 
   game.user.username = getUsername();
@@ -339,7 +346,7 @@ gameType.addEventListener('click', function (e) {
       return e.classList.remove('active');
     });
     e.target.classList.add('active');
-    e.target.value === 'Classic' ? game.difficult = 'normal' : game.difficult = 'advanced';
+    e.target.value === 'Classic' ? game.level = 'normal' : game.level = 'advanced';
   }
 });
 var gameRounds = document.getElementById('select-game-round');
@@ -361,7 +368,7 @@ go.addEventListener('click', function () {
   var modal = document.getElementById('modal-start');
   modal.classList.add('modal--hide');
 
-  if (game.difficult === 'normal') {
+  if (game.level === 'normal') {
     hideLizardAndSpock();
   } else {
     showLizardAndSpock();

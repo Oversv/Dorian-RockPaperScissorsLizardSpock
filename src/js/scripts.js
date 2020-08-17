@@ -13,7 +13,7 @@ const game ={
         username: "",
         score: 0
     },
-    difficult: "advanced",
+    level: "advanced",
     rounds: 3,
     log: []
 } 
@@ -30,7 +30,7 @@ const getUsername = () =>{
 }
 
 /**
- * * Generate a machine option, return a string
+ * * Generate a machine move, return a string with the move
  */
 const choiceMachine = () =>{
     const imgComputer = document.getElementById('computer-choice-img')
@@ -38,7 +38,7 @@ const choiceMachine = () =>{
     const options = ['rock', 'paper', 'scissors', 'lizard', 'spock' ]
     let result
     
-    if(game.difficult === 'normal'){ 
+    if(game.level === 'normal'){ 
         const max = 3
         result =  Math.floor(Math.random() * (max - min)) + min;
     }else{
@@ -49,7 +49,7 @@ const choiceMachine = () =>{
     return options[result]
 }
 /**
- * *Hide the icons lizard and spock in the clasic game
+ * * Hide the icons lizard and spock in the classic game
  */
 const hideLizardAndSpock = () =>{
     const lizard = document.getElementById('lizard')
@@ -59,7 +59,7 @@ const hideLizardAndSpock = () =>{
     spock.classList.add('advanced-game-hide')
 }
 /**
- * *Show the icons lizard and spock in the advanced game
+ * * Show the icons lizard and spock in the advanced game
  */
 const showLizardAndSpock = () =>{
     const lizard = document.getElementById('lizard')
@@ -70,16 +70,16 @@ const showLizardAndSpock = () =>{
 }
 
 /**
- * * Compare the result of machine with the user and return the winner    
- * @param {string} user option chossed for user 
- * @param {string} machine option chossed for user 
- * return null is is tie
+ * * Compare the machine result with the user result and return the winner    
+ * @param {string} user move chosen by user 
+ * @param {string} machine move chosen by machine 
+ * return null if it is a tie
  * return 0 if user wins
  * return 1 if machine wins
 */
-const winerRound = (user, machine) =>{
+const winnerRound = (user, machine) =>{
  
-    if(game.difficult === 'normal'){
+    if(game.level === 'normal'){
         if(user === machine) return null
         if(user === 'rock'     && machine === 'scissors') return 0
         if(user === 'paper'    && machine === 'rock')     return 0
@@ -99,7 +99,7 @@ const winerRound = (user, machine) =>{
     }  
 }
 /**
- * *Update the result of the round
+ * * Update the result of the round
  * @param {null, 0 or 1} result 
  */
 const updateResult = (result) =>{
@@ -123,11 +123,11 @@ const updateInfoRound = (round) =>{
     numberRounds.textContent = `Round ${totalRounds - round + 1}`    
 }
 /**
- * *Update the winer of the round
+ * * Update the winner of the round
  * @param {null, 0 or 1} winner 
  */
 const updateRoundWinner = (winner) =>{
-    // TODO usar la constante que tiene almacenada el nombre  
+
     const roundWinner = document.getElementById('round-winner')
     let result = "";    
 
@@ -180,9 +180,9 @@ const countdown = () =>{
 /**
  * * Update log
  * @param {number} round total of rounds
- * @param {string} computer the option of the computer
- * @param {string} user the option of the user
- * @param {null, 0 or 1} winner thw winnwe of the round
+ * @param {string} computer the computer move
+ * @param {string} user the user move
+ * @param {null, 0 or 1} winner the winner of the round
  */
 const log = (round, computer, user, winner) =>{    
     const totalRounds = game.rounds     
@@ -197,7 +197,7 @@ const log = (round, computer, user, winner) =>{
 }
 
 /**
- * *Creathe the log modal
+ * * Create the log modal
  */
 const printerLog = () =>{
     let modalContent = document.getElementById('modal-result-content')
@@ -252,7 +252,7 @@ const printerLog = () =>{
     hideLogListener()
 }
 /**
- * *Show the log
+ * * Show the log
  */
 const showModalResult = () =>{
     const modalResult = document.getElementById('modal-result')
@@ -262,7 +262,7 @@ const showModalResult = () =>{
     printerLog()
 }
 /**
- * Disabled the buttons of play and settings while the game is running
+ * * Disabled the buttons of play and settings while the game is running
  */
 const disabledButtons = () =>{
     const buttonPlay = document.getElementById('start-game')
@@ -275,7 +275,7 @@ const disabledButtons = () =>{
     buttonSettings.classList.add('disabled')
 }
 /**
- * Enabled the buttons of play and settings
+ * * Enabled the buttons of play and settings
  */
 const enabledButtons = () =>{
     const buttonPlay = document.getElementById('start-game')
@@ -288,7 +288,16 @@ const enabledButtons = () =>{
     buttonSettings.classList.remove('disabled')
 }
 /**
- * This fuction is where the game se lleva a cabo
+ * * Reproduce a short audio at the end of each round
+ */
+const playAudio = () =>{
+    const audio = new Audio('../audio/beep.mp3')   
+
+    audio.play()
+}
+
+/**
+ * * This fuction contains all functions for the game to work
  */
 const startGame = () =>{   
     
@@ -304,11 +313,12 @@ const startGame = () =>{
             
             const machine = choiceMachine()      
             const user = userChoice.getAttribute('data-value')                
-            const result = winerRound(user, machine)     
+            const result = winnerRound(user, machine)     
             
             updateInfoRound(rounds)
             updateResult(result)
             updateRoundWinner(result)
+            playAudio()
             log(rounds, machine, user, result)
 
             if(result === null) 
@@ -321,8 +331,7 @@ const startGame = () =>{
                 enabledButtons()
             }        
 
-        }, 3000)
-                
+        }, 3000)                
     })(rounds);  
 }
 
@@ -332,11 +341,9 @@ formStartGame.addEventListener('submit', e =>{
     const username = document.getElementById('user-player-username')
     e.preventDefault()    
     
+    // ? Block access withouth username
     if(usernameInput.value.trim().length > 0 && usernameInput.value.trim().length < 10){
-        sessionStorage.setItem('rockPaperScissorsUsername', usernameInput.value.trim())
-        
-    }else{
-        console.log('Nombre incorrecto') //TODO Añadir una clase para poner el nombre en rojo y mostrar el aviso
+        sessionStorage.setItem('rockPaperScissorsUsername', usernameInput.value.trim())        
     }
     
     game.user.username = getUsername()
@@ -355,7 +362,6 @@ movesChoice.addEventListener('click', e =>{
 
 
 const gameType = document.getElementById('select-game-type')
-
 gameType.addEventListener('click', e =>{
     
     const buttons = Array.from(gameType.childNodes).filter(e => e.nodeName === 'INPUT')
@@ -366,13 +372,12 @@ gameType.addEventListener('click', e =>{
         e.target.classList.add('active');
         
         (e.target.value === 'Classic')
-            ? game.difficult = 'normal'
-            : game.difficult = 'advanced' 
+            ? game.level = 'normal'
+            : game.level = 'advanced' 
     }  
 })
 
 const gameRounds = document.getElementById('select-game-round')
-
 gameRounds.addEventListener('click', e =>{
     
     const buttons = Array.from(gameRounds.childNodes).filter(e => e.nodeName === 'INPUT')
@@ -387,12 +392,11 @@ gameRounds.addEventListener('click', e =>{
 })
 
 const go = document.getElementById('go')
-
 go.addEventListener('click', ()=>{
     const modal = document.getElementById('modal-start')
     modal.classList.add('modal--hide')
 
-    if(game.difficult === 'normal'){
+    if(game.level === 'normal'){
         hideLizardAndSpock()               
     }else{
         showLizardAndSpock()

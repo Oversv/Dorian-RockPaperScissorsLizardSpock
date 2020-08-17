@@ -81,14 +81,26 @@ ul {
   padding: 15px 0;
   border: 6px dashed #1e2022; }
   .player__choice-img {
-    width: 150px;
-    height: 150px; }
+    width: 170px;
+    height: 170px; }
+    @media (min-width: 768px) {
+      .player__choice-img {
+        width: 220px;
+        height: 220px; } }
   .player__move-choice {
     height: 30px; }
   .player__move-choice-list {
     display: flex;
     justify-content: center;
     cursor: pointer; }
+  .player__icons {
+    width: 30px;
+    height: 30px;
+    margin: 0 2px; }
+    @media (min-width: 768px) {
+      .player__icons {
+        width: 40px;
+        height: 40px; } }
   .player__timer {
     text-align: center;
     font-size: 1.5em;
@@ -104,10 +116,6 @@ ul {
     color: #2ea44f;
     font-weight: bold;
     font-size: 1.5em; }
-
-.img-small {
-  width: 30px;
-  height: 30px; }
 
 .advanced-game-hide {
   display: none; }

@@ -8,8 +8,13 @@
     border: 6px dashed $third;
     
     &__choice-img{
-        width: 150px;
-        height: 150px;
+        width: 170px;
+        height: 170px;
+
+        @media (min-width: 768px) {
+            width: 220px;
+            height: 220px;
+        } 
     }
 
     &__move-choice{       
@@ -19,7 +24,17 @@
     &__move-choice-list{
         display: flex;            
         justify-content: center;
-        cursor: pointer;
+        cursor: pointer;        
+    }
+    
+    &__icons{
+        width: 30px;
+        height: 30px;
+        margin: 0 2px;
+        @media (min-width: 768px) {
+            width: 40px;
+            height: 40px;
+        }  
     }
 
     &__timer{               
@@ -45,10 +60,7 @@
         font-size: 1.5em;
     }
 }
-.img-small{
-    width: 30px;
-    height: 30px;    
-}
+
 .advanced-game-hide{
     display: none;
 }
