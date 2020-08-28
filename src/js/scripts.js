@@ -291,7 +291,7 @@ const enabledButtons = () =>{
  * * Reproduce a short audio at the end of each round
  */
 const playAudio = () =>{
-    const audio = new Audio('../audio/beep.mp3')   
+    const audio = new Audio('audio/beep.mp3')   
 
     audio.play()
 }
