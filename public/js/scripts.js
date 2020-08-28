@@ -228,7 +228,7 @@ var printerLog = function printerLog() {
       checkTie = "";
     }
 
-    div.innerHTML += "\n            <p>".concat(checkTie, "</p>\n            <p><img class=\"log__img\" src=\"images/").concat(e.user, ".svg\"> vs <img class=\"log__img\" src=\"../images/").concat(e.computer, ".svg\"> ").concat(text, " </p>\n        ");
+    div.innerHTML += "\n            <p>".concat(checkTie, "</p>\n            <p><img class=\"log__img\" src=\"images/").concat(e.user, ".svg\"> vs <img class=\"log__img\" src=\"images/").concat(e.computer, ".svg\"> ").concat(text, " </p>\n        ");
     checkTie = e.round;
     fragment.appendChild(div);
   });

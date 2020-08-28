@@ -238,7 +238,7 @@ const printerLog = () =>{
 
         div.innerHTML +=`
             <p>${checkTie}</p>
-            <p><img class="log__img" src="../images/${e.user}.svg"> vs <img class="log__img" src="../images/${e.computer}.svg"> ${text} </p>
+            <p><img class="log__img" src="images/${e.user}.svg"> vs <img class="log__img" src="images/${e.computer}.svg"> ${text} </p>
         ` 
         checkTie = e.round
         fragment.appendChild(div)
